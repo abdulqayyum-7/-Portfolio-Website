@@ -20,9 +20,36 @@
     @media(max-width:850px){.skill-grid{grid-template-columns:repeat(2,1fr)}.project{grid-template-columns:1fr;gap:22px}.project:nth-child(even) .project-copy{order:0}.visual img{max-height:430px}.phone-gallery img{max-height:none}}
     @media(max-width:600px){.wrap{width:min(var(--max),calc(100% - 32px))}nav{height:62px}.navlinks{gap:14px}.navlinks a{font-size:12px}.navlinks a:nth-child(2){display:none}.navlinks .nav-cta{padding:7px 10px}.hero{padding:76px 0 60px}.hero-copy{font-size:16px}.hero-meta{gap:12px 18px}.section-top{display:block}.section-note{margin-top:13px}.skill-grid{gap:10px}.skill-card{padding:16px}.project{padding:20px;border-radius:15px}.phone-gallery{grid-template-columns:repeat(2,1fr)}.timeline,.education-grid{grid-template-columns:1fr}.role-head{display:block}.role time{display:block;margin-top:8px}.contact-box{padding:26px}.footer-inner{display:block}.footer-inner span{display:block;margin-top:5px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+    /* ---------- animations ---------- */
+    .progress{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--accent),var(--mint));z-index:20}
+    .topbar{transition:box-shadow .3s,background .3s}.topbar.scrolled{box-shadow:0 10px 30px rgba(0,0,0,.28)}
+    @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+    @keyframes floaty{0%,100%{transform:translate(0,0)}50%{transform:translate(-26px,30px)}}
+    @keyframes shine{to{background-position:200% center}}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .hero .eyebrow,.hero h1,.hero-copy,.actions,.hero-meta{opacity:0;animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+    .hero h1{animation-delay:.1s}.hero-copy{animation-delay:.22s}.actions{animation-delay:.34s}.hero-meta{animation-delay:.46s}
+    .hero:after{animation:floaty 9s ease-in-out infinite}
+    .hero h1 em{background:linear-gradient(90deg,var(--accent),var(--mint),var(--accent));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+    .js .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+    .js .reveal.in{opacity:1;transform:none}
+    .skill-card,.role,.education-card,.project{transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .35s}
+    .skill-card:hover,.role:hover,.education-card:hover{transform:translateY(-6px);border-color:rgba(138,165,255,.45);box-shadow:0 18px 40px rgba(0,0,0,.32)}
+    .project:hover{border-color:rgba(105,224,194,.35);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+    .chip{transition:background .25s,border-color .25s,color .25s,transform .25s}.chip:hover{background:rgba(105,224,194,.12);border-color:rgba(105,224,194,.5);color:var(--mint);transform:translateY(-2px)}
+    .phone-gallery img,.visual-stack img{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
+    .phone-gallery img:nth-child(odd){margin-top:0}.phone-gallery img:nth-child(even){margin-top:14px}
+    .phone-gallery img:hover,.visual-stack img:hover{transform:translateY(-10px) scale(1.04);box-shadow:0 24px 44px rgba(0,0,0,.5);position:relative;z-index:2}
+    .project:hover .phone-gallery img:nth-child(odd){animation:bob 3.2s ease-in-out infinite}.project:hover .phone-gallery img:nth-child(even){animation:bob 3.2s ease-in-out .5s infinite}
+    .text-link{display:inline-block;transition:transform .25s,color .2s}.text-link:hover{transform:translateX(4px)}
+    .contact-box{transition:transform .4s}.contact-box:hover{transform:translateY(-4px)}
+    .button:active{transform:scale(.97)}
+    @media(prefers-reduced-motion:reduce){.hero .eyebrow,.hero h1,.hero-copy,.actions,.hero-meta{opacity:1;animation:none}.js .reveal{opacity:1;transform:none;transition:none}.hero:after,.hero h1 em,.project:hover .phone-gallery img{animation:none}}
   </style>
 </head>
 <body>
+  <div class="progress" id="progress"></div>
   <div class="topbar"><nav class="wrap" aria-label="Main navigation">
     <a class="brand" href="#top" aria-label="Abdul Qayyum home">AQ<span>.</span></a>
     <div class="navlinks"><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#experience">Experience</a><a class="nav-cta" href="#contact">Contact me ↗</a></div>
@@ -71,5 +98,29 @@
     <section class="contact" id="contact"><div class="wrap"><div class="contact-box"><div class="kicker">Have a project in mind?</div><h2>Let’s build something useful.</h2><p>I’m open to internships, freelance work and full-time opportunities. Reach out and tell me what you’re working on.</p><div class="contact-links"><a class="button primary" href="mailto:qayyumch15@gmail.com">Email me ↗</a><a class="contact-link" href="https://www.linkedin.com/in/abdulqayyum7" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a class="contact-link" href="https://github.com/abdulqayyum-7" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a class="contact-link" href="tel:+923156015975">+92 315 601 5975</a></div></div></div></section>
   </main>
   <footer><div class="wrap footer-inner"><span>© 2026 Abdul Qayyum</span><span>Designed and built with care · Islamabad, Pakistan</span></div></footer>
+
+  <script>
+    (function(){
+      document.documentElement.classList.add('js');
+      var sel='.section-top,.skill-card,.project,.role,.education,.education-card,.contact-box';
+      var els=[].slice.call(document.querySelectorAll(sel));
+      els.forEach(function(el){
+        el.classList.add('reveal');
+        var sib=el.parentElement?[].slice.call(el.parentElement.children).filter(function(c){return c.classList.contains('reveal')||c.matches(sel)}):[];
+        el.style.setProperty('--d',(Math.max(sib.indexOf(el),0)*0.09)+'s');
+      });
+      if('IntersectionObserver' in window){
+        var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+        els.forEach(function(el){io.observe(el)});
+      }else{els.forEach(function(el){el.classList.add('in')})}
+      // stagger phone screens inside each gallery
+      document.querySelectorAll('.phone-gallery img,.visual-stack img').forEach(function(img,i){
+        img.style.transitionDelay='0s';
+      });
+      var bar=document.getElementById('progress'),top=document.querySelector('.topbar'),t=false;
+      function onScroll(){var h=document.documentElement,max=h.scrollHeight-h.clientHeight;bar.style.transform='scaleX('+(max>0?h.scrollTop/max:0)+')';top.classList.toggle('scrolled',h.scrollTop>10);t=false}
+      window.addEventListener('scroll',function(){if(!t){t=true;requestAnimationFrame(onScroll)}},{passive:true});onScroll();
+    })();
+  </script>
 </body>
 </html>
